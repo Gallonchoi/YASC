@@ -8,9 +8,9 @@ python server.py 8888
 ```
 ##Dependences
 **Tornado**
-'''
+```
 pip install tornado
-'''
+```
 ##TODO
 **Frontend**
 > AngularJS, etc.
