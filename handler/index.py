@@ -27,21 +27,23 @@ class MessageHandler(tornado.websocket.WebSocketHandler, BaseHandler):
             client.write_message(message)
 
     def open(self):
-        print "WebSocket opened!"
         info = {
-            "username": "Server",
+            "type": "info",
             "message": "Welcome to Simple Chat!"
             }
         self.write_message(info)
         MessageHandler.clients.add(self)
         info = {
-            "username": "Server",
+            "type": "info",
             "message": "There is a new player: " + self.get_current_user()
             }
         self.send_to_all(info)
+        print "WebSocket opened!"
+        print "There are %s polls" % len(MessageHandler.clients)
 
     def on_message(self, message):
         text = {
+            "type": "message",
             "username": self.get_current_user(),
             "message": message
             }

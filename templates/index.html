@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html>
+<html ng-app="chatApp">
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -13,30 +13,13 @@
     <script src="{{ static_url('js/jquery-2.1.1.min.js') }}"></script>
     <script src="{{ static_url('js/bootstrap.min.js') }}"></script>
     <script src="{{ static_url('js/angular.min.js') }}"></script>
-    <script>
-      $(document).ready(function() {
-          var connection = new WebSocket("ws://127.0.0.1:8888/message");
-          connection.onmessage = function(event) {
-              var obj = jQuery.parseJSON(event.data);
-              $("#inbox").append('<li class="left clearfix">                  <span class="chat-img pull-left">                    <img src="http://placehold.it/50/55C1E7/fff" alt="User Avatar" class="img-circle" />                  </span>                  <div class="chat-body clearfix">                    <div class="header">                      <strong class="primary-font">'+ obj.username  +'</strong>                      <small class="pull-right text-muted">                        <i class="fa fa-clock-o fa-fw"></i> 14 mins ago</small>                    </div>                    <p>'+ obj.message +'                    </p>                  </div>                </li>');
-          };
-          $("#send").click(function() {
-              var message = $("#message").val();
-              connection.send(message);
-              $("#message").val() = "";
-          });
-          connection.onerror = wsError;
-          function wsError(event) {
-              console.log("Error: " + event.data);
-          }
-      });
-    </script>
+    <script src="{{ static_url('js/chat.js') }}"></script>
   </head>
   <body>
     <div id="wrapper">
       <div class="row">
         <div class="col-lg-4 col-lg-offset-4">
-          <div class="chat-panel panel panel-default">
+          <div class="chat-panel panel panel-default" ng-controller="MessageListCtrl">
             <div class="panel-heading">
               <i class="fa fa-comments fa-fw"></i>
                             Simple Chat
@@ -76,13 +59,28 @@
             </div>
             <!-- /.panel-heading -->
             <div class="panel-body">
-              <ul id="inbox" class="chat"></ul>
+              <ul id="inbox" class="chat" ng-repeat="message in messages">
+                <li class="left clearfix">
+                  <span class="chat-img pull-left">
+                      <img src="http://placehold.it/50/55C1E7/fff" alt="User Avatar" class="img-circle" />
+                  </span>
+                  <div class="chat-body clearfix">
+                    <div class="header">
+                      <strong class="primary-font">//message.username//</strong>
+                      <small class="pull-right text-muted"><i class="fa fa-clock-o fa-fw"></i> 14 mins ago</small>
+                    </div>
+                    <p>
+                        //message.message//
+                    </p>
+                  </div>
+                </li>
+              </ul>
             </div>
             <div class="panel-footer">
               <div class="input-group">
                 <input id="message" type="text" class="form-control input-sm" placeholder="Type your message here..." />
                 <span class="input-group-btn">
-                  <button id="send" class="btn btn-warning btn-sm">
+                  <button id="send" class="btn btn-warning btn-sm" ng-click="sendMessage()">
                                         Send
                   </button>
                 </span>
