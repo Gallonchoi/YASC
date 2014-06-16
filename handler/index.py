@@ -5,15 +5,18 @@ import tornado.auth
 
 from model.message import message_buffer
 
+
 class BaseHandler(tornado.web.RequestHandler):
     def get_current_user(self):
         return self.get_secure_cookie("user")
+
 
 class MainHandler(BaseHandler):
     @tornado.web.authenticated
     def get(self):
         messages = message_buffer.get()
         self.render("index.html", messages=messages)
+
 
 class MessageHandler(tornado.websocket.WebSocketHandler, BaseHandler):
     clients = set()
@@ -51,6 +54,7 @@ class MessageHandler(tornado.websocket.WebSocketHandler, BaseHandler):
         except:
             print MessageHandler.clients
 
+
 class AuthLoginHandler(BaseHandler):
     def get(self):
         self.render("login.html")
@@ -58,6 +62,7 @@ class AuthLoginHandler(BaseHandler):
     def post(self):
         self.set_secure_cookie("user", self.get_argument("username"))
         self.redirect("/")
+
 
 class AuthLogoutHandler(BaseHandler):
     def get(self):

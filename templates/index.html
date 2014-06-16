@@ -12,6 +12,7 @@
 
     <script src="{{ static_url('js/jquery-2.1.1.min.js') }}"></script>
     <script src="{{ static_url('js/bootstrap.min.js') }}"></script>
+    <script src="{{ static_url('js/angular.min.js') }}"></script>
     <script>
       $(document).ready(function() {
           var connection = new WebSocket("ws://127.0.0.1:8888/message");
@@ -22,6 +23,7 @@
           $("#send").click(function() {
               var message = $("#message").val();
               connection.send(message);
+              $("#message").val() = "";
           });
           connection.onerror = wsError;
           function wsError(event) {
