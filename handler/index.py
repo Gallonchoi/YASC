@@ -1,9 +1,8 @@
+import logging
 import tornado.web
 import tornado.websocket
 import tornado.escape
 import tornado.auth
-
-from model.message import message_buffer
 
 
 class BaseHandler(tornado.web.RequestHandler):
@@ -14,12 +13,12 @@ class BaseHandler(tornado.web.RequestHandler):
 class MainHandler(BaseHandler):
     @tornado.web.authenticated
     def get(self):
-        messages = message_buffer.get()
-        self.render("index.html", messages=messages)
+        self.render("index.html", messages=MessageHandler.message_buffer)
 
 
 class MessageHandler(tornado.websocket.WebSocketHandler, BaseHandler):
     clients = set()
+    message_buffer = []
 
     @staticmethod
     def send_to_all(message):
@@ -27,19 +26,9 @@ class MessageHandler(tornado.websocket.WebSocketHandler, BaseHandler):
             client.write_message(message)
 
     def open(self):
-        info = {
-            "type": "info",
-            "message": "Welcome to Simple Chat!"
-            }
-        self.write_message(info)
         MessageHandler.clients.add(self)
-        info = {
-            "type": "info",
-            "message": "There is a new player: " + self.get_current_user()
-            }
-        self.send_to_all(info)
-        print "WebSocket opened!"
-        print "There are %s polls" % len(MessageHandler.clients)
+        logging.info("WebSocket opened!")
+        logging.info("There are %s polls" % len(MessageHandler.clients))
 
     def on_message(self, message):
         text = {
@@ -47,14 +36,12 @@ class MessageHandler(tornado.websocket.WebSocketHandler, BaseHandler):
             "username": self.get_current_user(),
             "message": message
             }
+        MessageHandler.message_buffer.append(text)
         self.send_to_all(text)
 
     def on_close(self):
-        try:
             MessageHandler.clients.remove(self)
-            print "WebSocket closed!"
-        except:
-            print MessageHandler.clients
+            logging.info("WebSocket closed!")
 
 
 class AuthLoginHandler(BaseHandler):
