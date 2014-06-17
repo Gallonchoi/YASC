@@ -5,11 +5,6 @@ chatApp.config(function($interpolateProvider) {
     $interpolateProvider.endSymbol('//');
 });
 
-
-chatApp.controller('DemoController', function DemoController() {
-    this.label = "This bindings is brought you you by // interpolation symbols.";
-});
-
 function MessageListCtrl($scope) {
     var connection = new WebSocket("ws://127.0.0.1:8888/message");
     connection.onmessage = function(event) {
@@ -31,5 +26,7 @@ function MessageListCtrl($scope) {
         var message = $("#message").val();
         connection.send(message);
         $("#message").val(null);
+    };
+    $scope.check = function() {
     };
 }
