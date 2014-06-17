@@ -13,35 +13,48 @@ class BaseHandler(tornado.web.RequestHandler):
 class MainHandler(BaseHandler):
     @tornado.web.authenticated
     def get(self):
-        self.render("index.html", messages=MessageHandler.message_buffer)
+        self.render("index.html")
 
 
 class MessageHandler(tornado.websocket.WebSocketHandler, BaseHandler):
     clients = set()
     message_buffer = []
 
-    @staticmethod
-    def send_to_all(message):
-        for client in MessageHandler.clients:
-            client.write_message(message)
+    @classmethod
+    def send_to_all(cls, chat):
+        logging.info("Sending message to %d waiters", len(cls.clients))
+        try:
+            for client in cls.clients:
+                if type(chat) == list:
+                    for message in chat:
+                        client.write_message(message)
+                else:
+                    client.write_message(chat)
+        except:
+            logging.error("It seems something wrong")
+
+    @classmethod
+    def update_buffer(cls, chat):
+        cls.message_buffer.append(chat)
 
     def open(self):
         MessageHandler.clients.add(self)
+        MessageHandler.send_to_all(MessageHandler.message_buffer)
         logging.info("WebSocket opened!")
         logging.info("There are %s polls" % len(MessageHandler.clients))
 
     def on_message(self, message):
-        text = {
+        chat = {
             "type": "message",
             "username": self.get_current_user(),
             "message": message
             }
-        MessageHandler.message_buffer.append(text)
-        self.send_to_all(text)
+        MessageHandler.update_buffer(chat)
+        MessageHandler.send_to_all(chat)
 
     def on_close(self):
-            MessageHandler.clients.remove(self)
-            logging.info("WebSocket closed!")
+        MessageHandler.clients.remove(self)
+        logging.info("WebSocket closed!")
 
 
 class AuthLoginHandler(BaseHandler):
