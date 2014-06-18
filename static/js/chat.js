@@ -1,6 +1,3 @@
-$(document).ready(function() {
-    
-})
 // AngularJS APP Configuration
 var chatApp = angular.module('chatApp', []);
 
@@ -15,10 +12,8 @@ function MessageListCtrl($scope) {
         var message = jQuery.parseJSON(event.data);
         if (message.type == "message")
         {
-            // Force AngularJS binding async data
-            $scope.$apply(function() {
-                $scope.messages.push(message);
-            });
+            message.time = timeHandler(message.time);
+            showMessage($scope, message);
         }
     };
 
@@ -29,10 +24,29 @@ function MessageListCtrl($scope) {
     $scope.messages = [];
     $scope.sendMessage = function() {
         var message = $("#message").val();
-        connection.send(message);
-        $("#message").val(null);
+        if (message.length > 0)
+        {
+            connection.send(message);
+            $("#message").val(null);
+        }
     };
+}
 
-    $scope.check = function() {
-    };
+function timeHandler(time)
+{
+    var now = new Date();
+    time = parseInt((now.getTime() - time)/1000/60);
+    if (time < 1)
+        time = "just now";
+    else
+        time += " mins ago";
+    return time;
+}
+
+function showMessage($scope, message)
+{
+    // Force AngularJS binding the async data
+    $scope.$apply(function() {
+        $scope.messages.push(message);
+    });
 }

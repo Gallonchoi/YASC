@@ -4,6 +4,8 @@ import tornado.websocket
 import tornado.escape
 import tornado.auth
 
+from time import time
+
 
 class BaseHandler(tornado.web.RequestHandler):
     def get_current_user(self):
@@ -44,10 +46,13 @@ class MessageHandler(tornado.websocket.WebSocketHandler, BaseHandler):
         logging.info("There are %s polls" % len(MessageHandler.clients))
 
     def on_message(self, message):
+        if message == False:
+            return
         chat = {
             "type": "message",
             "username": self.get_current_user(),
-            "message": message
+            "message": message,
+            "time": time()*1000
             }
         MessageHandler.update_buffer(chat)
         MessageHandler.send_to_all(chat)
