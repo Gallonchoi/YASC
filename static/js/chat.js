@@ -7,26 +7,13 @@ chatApp.config(function($interpolateProvider) {
 });
 
 function MessageListCtrl($scope) {
-    var connection = new WebSocket("ws://127.0.0.1:8888/message");
-    connection.onmessage = function(event) {
-        var message = jQuery.parseJSON(event.data);
-        if (message.type == "message")
-        {
-            // message.time = timeHandler(message.time);
-            showMessage($scope, message);
-        }
-    };
-
-    connection.onerror = function wsError(event) {
-        console.log("Error: " + event.data);
-    };
-
+    updater.start($scope);
     $scope.messages = [];
     $scope.sendMessage = function() {
         var message = $("#message").val();
         if (message.length > 0)
         {
-            connection.send(message);
+            updater.sendMessage(message);
             $("#message").val(null);
         }
     };
@@ -37,17 +24,40 @@ chatApp.filter("timeHandler", function() {
         var now = new Date();
         time = parseInt((now.getTime() - time)/1000/60);
         if (time < 1)
-            time = "just now";
+            time = "Just now";
         else
             time += " mins ago";
         return time;
     };
 });
 
-function showMessage($scope, message)
-{
-    // Force AngularJS binding the async data
-    $scope.$apply(function() {
-        $scope.messages.push(message);
-    });
+var updater = {
+    connection: null,
+
+    start: function($scope) {
+        updater.connection = new WebSocket("ws://127.0.0.1:8888/message");
+        updater.connection.onmessage = function(event) {
+            var message = jQuery.parseJSON(event.data);
+            if (message.type == "message")
+            {
+                // message.time = timeHandler(message.time);
+                updater.showMessage($scope, message);
+            }
+        };
+
+        updater.connection.onerror = function wsError(event) {
+            console.log("Error: " + event.data);
+        };
+    },
+
+    sendMessage: function(message) {
+        updater.connection.send(message);
+    },
+
+    showMessage: function($scope, message) {
+        // Force AngularJS binding the async data
+        $scope.$apply(function() {
+            $scope.messages.push(message);
+        });
+    }
 }
