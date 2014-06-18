@@ -12,7 +12,7 @@ function MessageListCtrl($scope) {
         var message = jQuery.parseJSON(event.data);
         if (message.type == "message")
         {
-            message.time = timeHandler(message.time);
+            // message.time = timeHandler(message.time);
             showMessage($scope, message);
         }
     };
@@ -32,16 +32,17 @@ function MessageListCtrl($scope) {
     };
 }
 
-function timeHandler(time)
-{
-    var now = new Date();
-    time = parseInt((now.getTime() - time)/1000/60);
-    if (time < 1)
-        time = "just now";
-    else
-        time += " mins ago";
-    return time;
-}
+chatApp.filter("timeHandler", function() {
+    return function(time) {
+        var now = new Date();
+        time = parseInt((now.getTime() - time)/1000/60);
+        if (time < 1)
+            time = "just now";
+        else
+            time += " mins ago";
+        return time;
+    };
+});
 
 function showMessage($scope, message)
 {
