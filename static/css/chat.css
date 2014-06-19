@@ -73,11 +73,6 @@ body {
 .btn-danger.btn-outline:hover {
     color: #fff;
 }
-
-/* Pages */
-
-/* ------------------------------- */
-
 /* Chat */
 
 .chat {
@@ -111,7 +106,7 @@ body {
 }
 
 .chat-panel .panel-body {
-    height: 350px;
+    height: 500px;
     overflow-y: scroll;
 }
 

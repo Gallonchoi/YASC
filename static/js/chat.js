@@ -11,8 +11,7 @@ function MessageListCtrl($scope) {
     $scope.messages = [];
     $scope.sendMessage = function() {
         var message = $("#message").val();
-        if (message.length > 0)
-        {
+        if (message.length > 0) {
             updater.sendMessage(message);
             $("#message").val(null);
         }
@@ -38,9 +37,7 @@ var updater = {
         updater.connection = new WebSocket("ws://127.0.0.1:8888/message");
         updater.connection.onmessage = function(event) {
             var message = jQuery.parseJSON(event.data);
-            if (message.type == "message")
-            {
-                // message.time = timeHandler(message.time);
+            if (message.type == "message") {
                 updater.showMessage($scope, message);
             }
         };
@@ -60,4 +57,4 @@ var updater = {
             $scope.messages.push(message);
         });
     }
-}
+};
