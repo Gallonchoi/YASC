@@ -6,8 +6,8 @@ chatApp.config(function($interpolateProvider) {
     $interpolateProvider.endSymbol('//');
 });
 
-function MessageListCtrl($scope) {
-    updater.start($scope);
+function MessageListCtrl($scope, $location, $anchorScroll) {
+    updater.start($scope, $location, $anchorScroll);
     $scope.messages = [];
     $scope.sendMessage = function() {
         var message = $("#message").val();
@@ -33,12 +33,14 @@ chatApp.filter("timeHandler", function() {
 var updater = {
     connection: null,
 
-    start: function($scope) {
+    start: function($scope, $location, $anchorScroll) {
         updater.connection = new WebSocket("ws://127.0.0.1:8888/message");
         updater.connection.onmessage = function(event) {
             var message = jQuery.parseJSON(event.data);
             if (message.type == "message") {
                 updater.showMessage($scope, message);
+                $location.hash('bottom');
+                $anchorScroll();
             }
         };
 

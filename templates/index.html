@@ -60,33 +60,35 @@
             <!-- /.panel-heading -->
             <div id="inbox" class="panel-body">
               <ul class="chat">
-                <div ng-repeat="message in messages track by $index">
-                  <li class="left clearfix">
-                    <span class="chat-img pull-left">
-                      <img src="{{ static_url('thumb') }}" alt="User Avatar" class="img-circle" />
-                    </span>
-                    <div class="chat-body clearfix">
-                      <div class="header">
-                        <strong class="primary-font">//message.username//</strong>
-                        <small class="pull-right text-muted"><i class="fa fa-clock-o fa-fw"></i> //message.time | timeHandler//</small>
-                      </div>
-                      <p>
-                        //message.message//
-                      </p>
+                <li class="left clearfix" ng-repeat="message in messages track by $index">
+                  <span class="chat-img pull-left">
+                    <img src="{{ static_url('thumb') }}" alt="User Avatar" class="img-circle" />
+                  </span>
+                  <div class="chat-body clearfix">
+                    <div class="header">
+                      <strong class="primary-font">//message.username//</strong>
+                      <small class="pull-right text-muted"><i class="fa fa-clock-o fa-fw"></i> //message.time | timeHandler//</small>
                     </div>
-                  </li>
+                    <p>
+                        //message.message//
+                    </p>
+                  </div>
+                </li>
+                <div id="bottom">
                 </div>
               </ul>
             </div>
             <div class="panel-footer">
-              <div class="input-group">
-                <input id="message" type="text" class="form-control input-sm" placeholder="Type your message here..." />
-                <span class="input-group-btn">
-                  <button id="send" class="btn btn-warning btn-sm" ng-click="sendMessage()">
+              <form ng-submit="sendMessage()">
+                <div class="input-group">
+                  <input id="message" type="text" class="form-control input-sm" placeholder="Type your message here..." />
+                  <span class="input-group-btn">
+                    <button id="send" class="btn btn-warning btn-sm" type="submit">
                                         Send
-                  </button>
-                </span>
-              </div>
+                    </button>
+                  </span>
+                </div>
+              </form>
             </div>
           </div>
         </div>
