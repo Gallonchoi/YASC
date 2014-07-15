@@ -43,7 +43,6 @@ var updater = {
                 $anchorScroll();
             }
         };
-
         updater.connection.onerror = function wsError(event) {
             console.log("Error: " + event.data);
         };

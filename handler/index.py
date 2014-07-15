@@ -41,7 +41,9 @@ class MessageHandler(tornado.websocket.WebSocketHandler, BaseHandler):
 
     def open(self):
         MessageHandler.clients.add(self)
-        MessageHandler.send_to_all(MessageHandler.message_buffer)
+        logging.info("Sending message to the new client")
+        for message in self.message_buffer:
+            self.write_message(message)
         logging.info("WebSocket opened!")
         logging.info("There are %s polls" % len(MessageHandler.clients))
 
