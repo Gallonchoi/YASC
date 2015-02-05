@@ -10,8 +10,6 @@
     <link href="{{ static_url('css/font-awesome.min.css') }}" rel="stylesheet">
     <link href="{{ static_url('css/chat.css') }}" rel="stylesheet">
 
-    <script src="{{ static_url('js/jquery-2.1.1.min.js') }}"></script>
-    <script src="{{ static_url('js/bootstrap.min.js') }}"></script>
     <script src="{{ static_url('js/angular.min.js') }}"></script>
     <script src="{{ static_url('js/chat.js') }}"></script>
   </head>
@@ -66,12 +64,10 @@
                   </span>
                   <div class="chat-body clearfix">
                     <div class="header">
-                      <strong class="primary-font">//message.username//</strong>
-                      <small class="pull-right text-muted"><i class="fa fa-clock-o fa-fw"></i> //message.time | timeHandler//</small>
+                      <strong class="primary-font" ng-bind="message.username"></strong>
+                      <small class="pull-right text-muted"><i class="fa fa-clock-o fa-fw"></i><span ng-bind="message.time | timeHandler"></span></small>
                     </div>
-                    <p>
-                        //message.message//
-                    </p>
+                    <p ng-bind="message.message"></p>
                   </div>
                 </li>
                 <div id="bottom">

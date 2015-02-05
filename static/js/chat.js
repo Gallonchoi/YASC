@@ -1,19 +1,15 @@
 // AngularJS APP Configuration
 var chatApp = angular.module('chatApp', []);
 
-chatApp.config(function($interpolateProvider) {
-    $interpolateProvider.startSymbol('//');
-    $interpolateProvider.endSymbol('//');
-});
-
 function MessageListCtrl($scope, $location, $anchorScroll) {
     updater.start($scope, $location, $anchorScroll);
     $scope.messages = [];
     $scope.sendMessage = function() {
-        var message = $("#message").val();
+        var msg_node = document.getElementById('message');
+        var message = msg_node.value;
         if (message.length > 0) {
             updater.sendMessage(message);
-            $("#message").val(null);
+            msg_node.value = '';
         }
     };
 }
@@ -36,9 +32,9 @@ var updater = {
     start: function($scope, $location, $anchorScroll) {
         updater.connection = new WebSocket("ws://127.0.0.1:8888/message");
         updater.connection.onmessage = function(event) {
-            var message = jQuery.parseJSON(event.data);
-            if (message.type == "message") {
-                updater.showMessage($scope, message);
+            var msg = JSON.parse(event.data);
+            if (msg.type == "message") {
+                updater.showMessage($scope, msg);
                 $location.hash('bottom');
                 $anchorScroll();
             }

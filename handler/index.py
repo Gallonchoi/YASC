@@ -32,8 +32,8 @@ class MessageHandler(tornado.websocket.WebSocketHandler, BaseHandler):
                         client.write_message(message)
                 else:
                     client.write_message(chat)
-        except:
-            logging.error("It seems something wrong")
+        except Exception as e:
+            logging.error("It seems something wrong! " + str(e))
 
     @classmethod
     def update_buffer(cls, chat):
@@ -52,7 +52,7 @@ class MessageHandler(tornado.websocket.WebSocketHandler, BaseHandler):
             return
         chat = {
             "type": "message",
-            "username": self.get_current_user(),
+            "username": self.get_current_user().decode('utf-8'),
             "message": message,
             "time": time()*1000
             }
