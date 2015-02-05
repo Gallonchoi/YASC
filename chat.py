@@ -1,13 +1,11 @@
 from time import time
 import logging
-import sys
 import uuid
 import os
 
 import tornado.ioloop
 import tornado.web
 import tornado.websocket
-import tornado.escape
 import tornado.auth
 from tornado.options import define, options, parse_command_line
 
@@ -25,9 +23,14 @@ class MainHandler(BaseHandler):
         self.render("index.html")
 
 
-class MessageHandler(tornado.websocket.WebSocketHandler, BaseHandler):
+class MessageHandler(tornado.websocket.WebSocketHandler):
     clients = set()
     message_buffer = []
+
+    def get_current_user(self):
+        cur_user = self.get_secure_cookie("user")
+        if cur_user:
+            return cur_user.decode('utf-8')
 
     @classmethod
     def send_to_all(cls, chat):
@@ -47,19 +50,27 @@ class MessageHandler(tornado.websocket.WebSocketHandler, BaseHandler):
         cls.message_buffer.append(chat)
 
     def open(self):
+        cur_user = self.get_current_user()
+        if not cur_user:
+            logging.warning("Unauthorized entry: open new websocket")
+            self.close(None, "Unauthorized entry")
+            return
         MessageHandler.clients.add(self)
         logging.info("Sending message to the new client")
         for message in self.message_buffer:
             self.write_message(message)
-        logging.info("WebSocket opened!")
+        logging.info("WebSocket opened! New user: " + cur_user)
         logging.info("There are %s polls" % len(MessageHandler.clients))
 
     def on_message(self, message):
-        if message == False:
+        cur_user = self.get_current_user()
+        if not message or not cur_user:
+            logging.warning("Unauthorized entry: sending message")
+            self.close(None, "Unauthorized entry")
             return
         chat = {
             "type": "message",
-            "username": self.get_current_user().decode('utf-8'),
+            "username": cur_user,
             "message": message,
             "time": time()*1000
             }
@@ -68,7 +79,7 @@ class MessageHandler(tornado.websocket.WebSocketHandler, BaseHandler):
 
     def on_close(self):
         MessageHandler.clients.remove(self)
-        logging.info("WebSocket closed!")
+        logging.info("One websocket closed!")
 
 
 class AuthLoginHandler(BaseHandler):
@@ -107,8 +118,9 @@ class Application(tornado.web.Application):
 
 if __name__ == "__main__":
     parse_command_line()
-    logging.info('Development server is running at http://127.0.0.1:%s' % options.port)
-    logging.info('Quit the server with CONTROL-C')
+    logging.info("Development server is running at http://127.0.0.1:%s"
+                 % options.port)
+    logging.info("Quit the server with CONTROL-C")
     app = Application()
     app.listen(options.port)
     tornado.ioloop.IOLoop.instance().start()
