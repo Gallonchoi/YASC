@@ -1,10 +1,17 @@
+from time import time
 import logging
+import sys
+import uuid
+import os
+
+import tornado.ioloop
 import tornado.web
 import tornado.websocket
 import tornado.escape
 import tornado.auth
+from tornado.options import define, options, parse_command_line
 
-from time import time
+define("port", default=8888, help="run on the given port", type=int)
 
 
 class BaseHandler(tornado.web.RequestHandler):
@@ -77,3 +84,31 @@ class AuthLogoutHandler(BaseHandler):
     def get(self):
         self.clear_cookie("user")
         self.redirect("/login")
+
+
+class Application(tornado.web.Application):
+    def __init__(self):
+        handlers = [
+            (r'/', MainHandler),
+            (r'/login', AuthLoginHandler),
+            (r'/logout', AuthLogoutHandler),
+            (r'/message', MessageHandler),
+        ]
+        settings = dict(
+            cookie_secret=uuid.uuid4().hex,
+            login_url="/login",
+            template_path=os.path.join(os.path.dirname(__file__), "templates"),
+            static_path=os.path.join(os.path.dirname(__file__), "static"),
+            xsrf_cookies=True,
+            debug=True,
+        )
+        tornado.web.Application.__init__(self, handlers, **settings)
+
+
+if __name__ == "__main__":
+    parse_command_line()
+    logging.info('Development server is running at http://127.0.0.1:%s' % options.port)
+    logging.info('Quit the server with CONTROL-C')
+    app = Application()
+    app.listen(options.port)
+    tornado.ioloop.IOLoop.instance().start()
