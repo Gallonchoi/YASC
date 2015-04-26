@@ -10,14 +10,10 @@
     <link href="{{ static_url('css/font-awesome.min.css') }}" rel="stylesheet">
     <link href="{{ static_url('css/chat.css') }}" rel="stylesheet">
 
-    <script src="{{ static_url('js/angular.min.js') }}"></script>
-    <script src="{{ static_url('js/chat.js') }}"></script>
   </head>
   <body>
     <div class="container" ng-controller="MessageListCtrl">
-      <header id="title">
-        <h1>Simple Chat Room</h1>
-      </header>
+      <header id="title">Simple Chat Room</header>
       <section id="user-list">
         <h4 class="title">Online Users</h4>
         <ul>
@@ -25,7 +21,7 @@
         </ul>
       </section>
       <!-- inbox begin -->
-      <section id="inbox">
+      <section id="inbox" scroll-glue>
         <!-- inbox list begin -->
         <ul id="inbox-list">
           <li class="inbox-body" ng-repeat="message in messages track by $index">
@@ -65,5 +61,8 @@
       </section>
       <!-- sender end -->
     </div>
+    <script src="{{ static_url('js/angular.min.js') }}"></script>
+    <script src="{{ static_url('js/scrollglue.js') }}"></script>
+    <script src="{{ static_url('js/chat.js') }}"></script>
   </body>
 </html>

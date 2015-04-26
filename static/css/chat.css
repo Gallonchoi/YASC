@@ -15,13 +15,16 @@ html, body {
 
 #title {
     height: 5%;
+    font-size: 40px;
+    padding-left: 10px;
+    background: #eee8c4;
 }
 
 #user-list {
     width: 10%;
     height: 95%;
     float: left;
-    background: grey;
+    background: #b58900;
 }
 
 #user-list .title {
@@ -37,8 +40,8 @@ html, body {
     height: 25px;
     font-size: 20px;
     text-align: center;
-    border: 1px solid green;
-    background: green;
+    border: 1px solid #859900;
+    background: #859900;
     border-radius: 5px;
     padding-left: 2px;
     margin-bottom: 5px;
@@ -46,10 +49,11 @@ html, body {
 
 #inbox {
     margin-left: 10%;
-    height: 82.75%;
+    height: 85%;
     overflow-y: scroll;
-    border-top: 1px solid #000;
-    border-bottom: 1px solid #000;
+    background: #eee8d5;
+    border-top: 1px solid #eee8d5;
+    border-bottom: 1px solid #eee8d5;
 }
 
 .inbox-body {
@@ -84,8 +88,8 @@ html, body {
 #sender {
     margin-left: 10%;
     height: 10%;
-    background: #ddd;
-    border: solid #fff;
+    background: #fdf6e3;
+    border: solid #fdf6e3;
 }
 
 #compose-form {
@@ -112,20 +116,36 @@ html, body {
     overflow: auto;
     outline: none;
     resize: none;
-    background: #FFFFFF;
+    background: #fdf6e3;
     border: none;
     border-radius: 5px;
 }
 
 #compose-btn {
     font-size: 20px;
-    color: #FFF;
+    color: #fdf6e3;
     width: 20%;
     height: 100%;
     cursor: pointer;
-    background: #4876FF;
+    background: #268bd2;
     /*  border: 1px solid; */
     border: 0px;
     border-radius: 5px;
     vertical-align: top;
+    $base03:    #002b36;
+    $base02:    #073642;
+    $base01:    #586e75;
+    $base00:    #657b83;
+    $base0:     #839496;
+    $base1:     #93a1a1;
+    $base2:     #eee8d5;
+    $base3:     #fdf6e3;
+    $yellow:    #b58900;
+    $orange:    #cb4b16;
+    $red:       #dc322f;
+    $magenta:   #d33682;
+    $violet:    #6c71c4;
+    $blue:      #268bd2;
+    $cyan:      #2aa198;
+    $green:     #859900;
 }

@@ -1,6 +1,6 @@
 (function() {
     // AngularJS APP Configuration
-    var chatApp = angular.module('chatApp', []);
+    var chatApp = angular.module('chatApp', ['luegg.directives']);
 
     chatApp
         .filter("timeHandler", function() {
@@ -14,8 +14,8 @@
                 return time;
             };
         })
-        .controller("MessageListCtrl", function($scope, $location, $anchorScroll) {
-            updater.start($scope, $location, $anchorScroll);
+        .controller("MessageListCtrl", function($scope) {
+            updater.start($scope);
             $scope.messages = [];
             $scope.sendMessage = function() {
                 var msgNode = document.getElementById('compose-msg-input');
@@ -30,14 +30,12 @@
     var updater = {
         connection: null,
 
-        start: function($scope, $location, $anchorScroll) {
+        start: function($scope) {
             updater.connection = new WebSocket("ws://127.0.0.1:8888/message");
             updater.connection.onmessage = function(event) {
                 var msg = JSON.parse(event.data);
                 if (msg.type == "message") {
                     updater.showMessage($scope, msg);
-                    // $location.hash('bottom');
-                    // $anchorScroll();
                 } else if(msg.type == "userlist") {
                     updater.updateUserList($scope, msg);
                 }
