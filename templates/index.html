@@ -1,94 +1,71 @@
 <!DOCTYPE html>
 <html ng-app="chatApp">
   <head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <title>Simple Chat</title>
+	<title>Simple Chat</title>
 
-    <link href="{{ static_url('css/bootstrap.min.css') }}" rel="stylesheet">
-    <link href="{{ static_url('css/font-awesome.min.css') }}" rel="stylesheet">
-    <link href="{{ static_url('css/chat.css') }}" rel="stylesheet">
+	<!-- <link href="{{ static_url('css/bootstrap.min.css') }}" rel="stylesheet"> -->
+	<link href="{{ static_url('css/font-awesome.min.css') }}" rel="stylesheet">
+	<link href="{{ static_url('css/chat.css') }}" rel="stylesheet">
 
-    <script src="{{ static_url('js/angular.min.js') }}"></script>
-    <script src="{{ static_url('js/chat.js') }}"></script>
+	<script src="{{ static_url('js/angular.min.js') }}"></script>
+	<script src="{{ static_url('js/chat.js') }}"></script>
   </head>
-  <body class="container">
-    <div id="wrapper">
-      <div class="row">
-        <div class="col-lg-10 col-lg-offset-1">
-          <div class="chat-panel panel panel-default" ng-controller="MessageListCtrl">
-            <div class="panel-heading">
-              <i class="fa fa-comments fa-fw"></i>
-                            Simple Chat
-              <div class="btn-group pull-right">
-                <button type="button" class="btn btn-default btn-xs dropdown-toggle" data-toggle="dropdown">
-                  <i class="fa fa-chevron-down"></i>
-                </button>
-                <ul class="dropdown-menu slidedown">
-                  <li>
-                    <a href="#">
-                      <i class="fa fa-refresh fa-fw"></i> Refresh
-                    </a>
-                  </li>
-                  <li>
-                    <a href="#">
-                      <i class="fa fa-check-circle fa-fw"></i> Available
-                    </a>
-                  </li>
-                  <li>
-                    <a href="#">
-                      <i class="fa fa-times fa-fw"></i> Busy
-                    </a>
-                  </li>
-                  <li>
-                    <a href="#">
-                      <i class="fa fa-clock-o fa-fw"></i> Away
-                    </a>
-                  </li>
-                  <li class="divider"></li>
-                  <li>
-                    <a href="/logout">
-                      <i class="fa fa-sign-out fa-fw"></i> Sign Out
-                    </a>
-                  </li>
-                </ul>
-              </div>
-            </div>
-            <!-- /.panel-heading -->
-            <div id="inbox" class="panel-body">
-              <ul class="chat">
-                <li class="left clearfix" ng-repeat="message in messages track by $index">
-                  <span class="chat-img pull-left">
-                    <img src="" alt="User Avatar" class="img-circle" />
-                  </span>
-                  <div class="chat-body clearfix">
-                    <div class="header">
-                      <strong class="primary-font" ng-bind="message.username"></strong>
-                      <small class="pull-right text-muted"><i class="fa fa-clock-o fa-fw"></i><span ng-bind="message.time | timeHandler"></span></small>
-                    </div>
-                    <p ng-bind="message.message"></p>
-                  </div>
-                </li>
-                <div id="bottom">
-                </div>
-              </ul>
-            </div>
-            <div class="panel-footer">
-              <form ng-submit="sendMessage()">
-                <div class="input-group">
-                  <input id="message" type="text" class="form-control input-sm" placeholder="Type your message here..." />
-                  <span class="input-group-btn">
-                    <button id="send" class="btn btn-warning btn-sm" type="submit">
-                                        Send
-                    </button>
-                  </span>
-                </div>
-              </form>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
+  <body>
+	<div class="container" ng-controller="MessageListCtrl">
+	  <header id="title">
+		<h1>Simple Chat Room</h1>
+	  </header>
+	  <section id="user-list">
+		<h4 class="title">Online</h4>
+		<ul>
+		  <li>Gallon</li>
+		  <li>Gallon</li>
+		  <li>Gallon</li>
+		</ul>
+	  </section>
+	  <!-- inbox begin -->
+	  <section id="inbox">
+		<!-- inbox list begin -->
+		<ul id="inbox-list">
+		  <li class="inbox-body" ng-repeat="message in messages track by $index">
+			<div class="sidebar">
+			  <div class="avatar">
+				<img alt="" src="{{ static_url('avatar.png') }}"/>
+			  </div>
+			  <div class="username">
+				<strong ng-bind="message.username"></strong>
+			  </div>
+			</div>
+			<div class="main">
+			  <!-- message header begin -->
+			  <header>
+				<small class="pull-right text-muted"><i class="fa fa-clock-o fa-fw"></i><span ng-bind="message.time | timeHandler"></span></small>
+			  </header>
+			  <!-- message header end -->
+			  <!-- message content begin -->
+			  <section class="inbox-msg">
+				<p ng-bind="message.message"></p>
+			  </section>
+			  <!-- message content end -->
+			</div>
+		  </li>
+		</ul>
+		<!-- inbox list end -->
+	  </section>
+	  <!-- inbox end -->
+	  <!-- sender begin -->
+	  <section id="sender">
+		<form id="compose-form" ng-submit="sendMessage()">
+		  <div id="compose-msg">
+			<textarea id="compose-msg-input" name="" placeholder="Type your message here..."></textarea>
+		  </div>
+		  <button id="compose-btn" type="submit">Send</button>
+		</form>
+	  </section>
+	  <!-- sender end -->
+	</div>
   </body>
 </html>

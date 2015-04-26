@@ -1,117 +1,128 @@
-/* Global Styles */
-
-/* ------------------------------- */
-
-body {
-    background-color: #f8f8f8;
+html, body {
+	margin: 0px;
+	padding: 0px;
+	height: 100%;
+	max-height: 100%;
 }
 
-@media(min-width:768px) {
-    body {
-        padding-top: 50px;
-    }
+.container {
+	min-height: 100%;
+	height: 100%;
+	position: relative;
+	overflow: hidden;
+	clear: both;
 }
 
-/* Wrappers */
-
-/* ------------------------------- */
-
-#wrapper {
-    width: 100%;
+#title {
+	height: 5%;
 }
 
-#page-wrapper {
-    padding: 0 15px;
-    min-height: 568px;
-    background-color: #fff;
+#user-list {
+	width: 10%;
+	height: 95%;
+	float: left;
+	background: grey;
+	border: 1px solid #000;
 }
 
-@media(min-width:768px) {
-    #page-wrapper {
-        position: inherit;
-        margin: 0 0 0 250px;
-        padding: 0 30px;
-        min-height: 1300px;
-        border-left: 1px solid #e7e7e7;
-    }
+#user-list .title {
+	text-align: center;
 }
 
-/* Buttons */
-
-/* ------------------------------- */
-
-.btn-outline {
-    color: inherit;
-    background-color: transparent;
-    transition: all .5s;
+#user-list ul {
+	list-style-type: none;
+	padding: 0px;
 }
 
-.btn-primary.btn-outline {
-    color: #428bca;
+#user-list ul li {
+	height: 25px;
+	font-size: 20px;
+	text-align: center;
+	border: 1px solid green;
+	background: green;
+	border-radius: 5px;
+	padding-left: 2px;
+	margin-bottom: 5px;
 }
 
-.btn-success.btn-outline {
-    color: #5cb85c;
+#inbox {
+	margin-left: 10%;
+	height: 82.75%;
+	overflow-y: scroll;
+	border: 1px solid #000;
 }
 
-.btn-info.btn-outline {
-    color: #5bc0de;
+.inbox-body {
+	min-height: 150px;
+	clear: both;
+	border: 1px solid #000;
+	list-style-type: none;
 }
 
-.btn-warning.btn-outline {
-    color: #f0ad4e;
+.inbox-body .sidebar {
+	float: left;
+	width: 150px;
+	height: 150px;
 }
 
-.btn-danger.btn-outline {
-    color: #d9534f;
+.inbox-body .sidebar .username,
+.inbox-body .sidebar .avatar {
+	text-align: center;
 }
 
-.btn-primary.btn-outline:hover,
-.btn-success.btn-outline:hover,
-.btn-info.btn-outline:hover,
-.btn-warning.btn-outline:hover,
-.btn-danger.btn-outline:hover {
-    color: #fff;
-}
-/* Chat */
-
-.chat {
-    margin: 0;
-    padding: 0;
-    list-style: none;
+.inbox-body .main {
+	margin-left: 150px;
+	width: 80%;
+	min-height: 150px;;
+	word-wrap: break-word;
 }
 
-.chat li {
-    margin-bottom: 10px;
-    padding-bottom: 5px;
-    border-bottom: 1px dotted #B3A9A9;
+
+#sender {
+	margin-left: 10%;
+	height: 10%;
+	background: #ddd;
+	border: solid #fff;
 }
 
-.chat li.left .chat-body {
-    margin-left: 60px;
+#compose-form {
+	width: 100%;
+	height: 100%;
+	display: inline-block;
+	/*  border: 1px solid #000; */
+	clear: both;
 }
 
-.chat li.right .chat-body {
-    margin-right: 60px;
+#compose-msg {
+	display: inline-block;
+	width: 79.58%;
+	height: 100%;
+	margin: 0px;
 }
 
-.chat li .chat-body p {
-    margin: 0;
-    color: #777777;
+#compose-msg-input {
+	font-size: 20px;
+	width: 100%;
+	height: 100%;
+	padding: 0px;
+	margin: 0;
+	overflow: auto;
+	outline: none;
+	resize: none;
+	background: #FFFFFF;
+	border: none;
+	border-radius: 5px;
 }
 
-.panel .slidedown .glyphicon,
-.chat .glyphicon {
-    margin-right: 5px;
-}
-
-.chat-panel .panel-body {
-    height: 500px;
-    overflow-y: scroll;
-}
-
-/* Login Page */
-
-.login-panel {
-    margin-top: 25%;
+#compose-btn {
+	font-size: 20px;
+	color: #FFF;
+	width: 20%;
+	height: 100%;
+	cursor: pointer;
+	background: #4876FF;
+	/*  border: 1px solid; */
+	border: 0px;
+	border-radius: 5px;
+	vertical-align: top;
 }
