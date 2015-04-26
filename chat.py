@@ -25,6 +25,7 @@ class MainHandler(BaseHandler):
 
 class MessageHandler(tornado.websocket.WebSocketHandler):
     clients = set()
+    all_users = []
     message_buffer = []
 
     def get_current_user(self):
@@ -56,7 +57,9 @@ class MessageHandler(tornado.websocket.WebSocketHandler):
             self.close(None, "Unauthorized entry")
             return
         MessageHandler.clients.add(self)
+        MessageHandler.all_users.append(cur_user)
         logging.info("Sending message to the new client")
+        MessageHandler.update_user_list()
         for message in self.message_buffer:
             self.write_message(message)
         logging.info("WebSocket opened! New user: " + cur_user)
@@ -77,9 +80,20 @@ class MessageHandler(tornado.websocket.WebSocketHandler):
         MessageHandler.update_buffer(chat)
         MessageHandler.send_to_all(chat)
 
+    @classmethod
+    def update_user_list(cls):
+        user_list = {
+            "type": "userlist",
+            "users": cls.all_users
+            }
+        MessageHandler.send_to_all(user_list)
+
     def on_close(self):
+        cur_user = self.get_current_user()
         MessageHandler.clients.remove(self)
+        MessageHandler.all_users.remove(cur_user)
         logging.info("One websocket closed!")
+        MessageHandler.update_user_list()
 
 
 class AuthLoginHandler(BaseHandler):

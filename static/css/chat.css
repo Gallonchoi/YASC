@@ -1,128 +1,131 @@
 html, body {
-	margin: 0px;
-	padding: 0px;
-	height: 100%;
-	max-height: 100%;
+    margin: 0px;
+    padding: 0px;
+    height: 100%;
+    max-height: 100%;
 }
 
 .container {
-	min-height: 100%;
-	height: 100%;
-	position: relative;
-	overflow: hidden;
-	clear: both;
+    min-height: 100%;
+    height: 100%;
+    position: relative;
+    overflow: hidden;
+    clear: both;
 }
 
 #title {
-	height: 5%;
+    height: 5%;
 }
 
 #user-list {
-	width: 10%;
-	height: 95%;
-	float: left;
-	background: grey;
-	border: 1px solid #000;
+    width: 10%;
+    height: 95%;
+    float: left;
+    background: grey;
 }
 
 #user-list .title {
-	text-align: center;
+    text-align: center;
 }
 
 #user-list ul {
-	list-style-type: none;
-	padding: 0px;
+    list-style-type: none;
+    padding: 0px;
 }
 
 #user-list ul li {
-	height: 25px;
-	font-size: 20px;
-	text-align: center;
-	border: 1px solid green;
-	background: green;
-	border-radius: 5px;
-	padding-left: 2px;
-	margin-bottom: 5px;
+    height: 25px;
+    font-size: 20px;
+    text-align: center;
+    border: 1px solid green;
+    background: green;
+    border-radius: 5px;
+    padding-left: 2px;
+    margin-bottom: 5px;
 }
 
 #inbox {
-	margin-left: 10%;
-	height: 82.75%;
-	overflow-y: scroll;
-	border: 1px solid #000;
+    margin-left: 10%;
+    height: 82.75%;
+    overflow-y: scroll;
+    border-top: 1px solid #000;
+    border-bottom: 1px solid #000;
 }
 
 .inbox-body {
-	min-height: 150px;
-	clear: both;
-	border: 1px solid #000;
-	list-style-type: none;
+    min-height: 150px;
+    width: 95%;
+    clear: both;
+    /*  border: 1px solid #000; */
+    list-style-type: none;
 }
 
+.inbox-body ~ .inbox-body { border-top: 1px solid #000000 }
+
 .inbox-body .sidebar {
-	float: left;
-	width: 150px;
-	height: 150px;
+    float: left;
+    width: 150px;
+    height: 150px;
 }
 
 .inbox-body .sidebar .username,
 .inbox-body .sidebar .avatar {
-	text-align: center;
+    text-align: center;
 }
 
 .inbox-body .main {
-	margin-left: 150px;
-	width: 80%;
-	min-height: 150px;;
-	word-wrap: break-word;
+    margin-left: 150px;
+    width: 80%;
+    min-height: 150px;;
+    word-wrap: break-word;
 }
 
 
 #sender {
-	margin-left: 10%;
-	height: 10%;
-	background: #ddd;
-	border: solid #fff;
+    margin-left: 10%;
+    height: 10%;
+    background: #ddd;
+    border: solid #fff;
 }
 
 #compose-form {
-	width: 100%;
-	height: 100%;
-	display: inline-block;
-	/*  border: 1px solid #000; */
-	clear: both;
+    width: 100%;
+    height: 100%;
+    display: inline-block;
+    /*  border: 1px solid #000; */
+    clear: both;
 }
 
 #compose-msg {
-	display: inline-block;
-	width: 79.58%;
-	height: 100%;
-	margin: 0px;
+    display: inline-block;
+    width: 79.58%;
+    height: 100%;
+    margin: 0px;
 }
 
 #compose-msg-input {
-	font-size: 20px;
-	width: 100%;
-	height: 100%;
-	padding: 0px;
-	margin: 0;
-	overflow: auto;
-	outline: none;
-	resize: none;
-	background: #FFFFFF;
-	border: none;
-	border-radius: 5px;
+    font-size: 20px;
+    width: 100%;
+    height: 100%;
+    padding: 0px;
+    margin: 0;
+    overflow: auto;
+    outline: none;
+    resize: none;
+    background: #FFFFFF;
+    border: none;
+    border-radius: 5px;
 }
 
 #compose-btn {
-	font-size: 20px;
-	color: #FFF;
-	width: 20%;
-	height: 100%;
-	cursor: pointer;
-	background: #4876FF;
-	/*  border: 1px solid; */
-	border: 0px;
-	border-radius: 5px;
-	vertical-align: top;
+    font-size: 20px;
+    color: #FFF;
+    width: 20%;
+    height: 100%;
+    cursor: pointer;
+    background: #4876FF;
+    /*  border: 1px solid; */
+    border: 0px;
+    border-radius: 5px;
+    vertical-align: top;
 }
