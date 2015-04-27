@@ -13,4 +13,4 @@ pip install tornado
 ```
 
 ####Demo
-[DEMO](chat.override.rocks)
+[DEMO](http://chat.override.rocks)
